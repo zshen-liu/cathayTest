@@ -2,8 +2,6 @@ import time
 
 from .base_page import BasePage
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 
@@ -24,10 +22,7 @@ class ProductList(BasePage):
             raise e
 
     def get_product_present(self):
-        try:
-            WebDriverWait(self.driver, 10).until((EC.presence_of_all_elements_located(self.product_list_loc)))
-            product_items = self.driver.find_elements(*self.product_list_loc)
-            product_name = [item.text for item in product_items]
-            return product_name
-        except TimeoutException as e:
-            raise e
+        self.wait_element(self.product_list_loc)
+        product_items = self.driver.find_elements(*self.product_list_loc)
+        product_name = [item.text for item in product_items]
+        return product_name

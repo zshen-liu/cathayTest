@@ -1,8 +1,5 @@
 from .base_page import BasePage
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 
 class LoginPage(BasePage):
     def __init__(self, url: str, driver):
@@ -14,5 +11,5 @@ class LoginPage(BasePage):
         super().open()
 
     def click_menu(self):
-        WebDriverWait(self.driver, 10).until((EC.visibility_of_element_located(self.menu_loc)))
+        self.wait_element(self.menu_loc)
         self.driver.find_element(*self.menu_loc).click()

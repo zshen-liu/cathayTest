@@ -2,7 +2,7 @@ import os
 import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
-
+from selenium.webdriver.support import expected_conditions as EC
 
 class BasePage(object):
     def __init__(self, url: str, driver):
@@ -15,6 +15,12 @@ class BasePage(object):
     def _open(self, url: str):
         self.driver.get(url)
         self.driver.implicitly_wait(10)
+
+    def wait_element(self, element_loc):
+        try:
+            WebDriverWait(self.driver, 10).until((EC.visibility_of_element_located(element_loc)))
+        except TimeoutException as e:
+            raise e
 
     def screen_shot(self, file_name: str):
         try:

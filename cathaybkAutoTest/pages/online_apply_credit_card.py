@@ -1,8 +1,5 @@
 from .base_page import BasePage
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
 
 
 class OnlineApplyCreditCard(BasePage):
@@ -16,36 +13,23 @@ class OnlineApplyCreditCard(BasePage):
             By.XPATH, '//div[@class="slider"]//following::li[contains(@aria-hidden, "false")]//following::a')
 
     def click_next_switch_card(self):
-        try:
-            WebDriverWait(self.driver, 10).until((EC.visibility_of_element_located(self.next_button_loc)))
-            self.driver.find_element(*self.next_button_loc).click()
-        except TimeoutException as e:
-            raise e
+        self.wait_element(self.next_button_loc)
+        self.driver.find_element(*self.next_button_loc).click()
 
     def get_tittle(self):
-        try:
-            WebDriverWait(self.driver, 10).until(
-                (EC.visibility_of_element_located(self.online_apply_card_page_title_loc)))
-            title = self.driver.find_element(*self.online_apply_card_page_title_loc)
-            return title.text
-        except TimeoutException as e:
-            raise e
+        self.wait_element(self.online_apply_card_page_title_loc)
+        title = self.driver.find_element(*self.online_apply_card_page_title_loc)
+        return title.text
 
     def get_card_list_total(self):
-        try:
-            WebDriverWait(self.driver, 10).until((EC.visibility_of_element_located(self.card_type_list_loc)))
-            card_list = self.driver.find_elements(*self.card_type_list_loc)
-            return len(card_list)
-        except TimeoutException as e:
-            raise e
+        self.wait_element(self.card_type_list_loc)
+        card_list = self.driver.find_elements(*self.card_type_list_loc)
+        return len(card_list)
 
     def get_current_card(self):
-        try:
-            WebDriverWait(self.driver, 10).until((EC.visibility_of_element_located(self.current_card_loc)))
-            current_card = self.driver.find_element(*self.current_card_loc)
-            return current_card.text
-        except TimeoutException as e:
-            raise e
+        self.wait_element(self.current_card_loc)
+        current_card = self.driver.find_element(*self.current_card_loc)
+        return current_card.text
 
     def scroll_all_card(self):
         self.driver.execute_script("window.scrollBy(150, 300)")
